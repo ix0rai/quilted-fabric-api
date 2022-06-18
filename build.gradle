@@ -460,6 +460,15 @@ machete {
 prepareRemapJar.dependsOn("optimizeOutputsOfJar")
 prepareRemapMavenJar.dependsOn("optimizeOutputsOfJar")
 
+task renameJar(type: Jar, dependsOn: (signingEnabled ? signRemapJar : remapJar)) {
+	with remapJar
+	from zipTree(remapJar.archiveFile)
+	def qsl_version_normalized = project.qsl_version.substring(0, project.qsl_version.indexOf('+'))
+	def qfapi_version_normalized = project.version.substring(0, project.version.indexOf('+'))
+	def upstream_fapi_version_normalized = project.upstream_version
+	archiveFileName.set("qfapi-${qfapi_version_normalized}_qsl-${qsl_version_normalized}_fapi-${upstream_fapi_version_normalized}_mc-${project.minecraft_version}.jar")
+}
+
 curseforge {
 	if (ENV.CURSEFORGE_API_KEY) {
 		apiKey = ENV.CURSEFORGE_API_KEY
@@ -472,7 +481,7 @@ curseforge {
 		addGameVersion "1.18.2"
 		addGameVersion "Fabric"
 
-		mainArtifact(renameJar) {
+		mainArtifact(renameJar.archiveFile.get().getAsFile()) {
 			displayName = "[$project.minecraft_version] QFAPI " + project.version.split("\\+")[0] + " and QSL " + project.qsl_version.split("\\+")[0]
 		}
 
@@ -494,16 +503,6 @@ if (signingEnabled) {
 
 import org.kohsuke.github.GHReleaseBuilder
 import org.kohsuke.github.GitHub
-
-task renameJar(type: Jar, dependsOn: (signingEnabled ? signRemapJar : remapJar)) {
-	with remapJar
-	from zipTree(remapJar.archiveFile)
-	def qsl_version_normalized = project.qsl_version.substring(0, project.qsl_version.indexOf('+'))
-	def qfapi_version_normalized = project.version.substring(0, project.version.indexOf('+'))
-	def upstream_fapi_version_normalized = project.upstream_version
-	archiveFileName.set("qfapi-${qfapi_version_normalized}_qsl-${qsl_version_normalized}_fapi-${upstream_fapi_version_normalized}_mc-${project.minecraft_version}.jar")
-}
-
 
 task github(dependsOn: renameJar) {
 	onlyIf {
