@@ -472,8 +472,8 @@ curseforge {
 		addGameVersion "1.18.2"
 		addGameVersion "Fabric"
 
-		mainArtifact(signingEnabled ? signRemapJar.output : remapJar) {
-			displayName = "[$project.minecraft_version] Fabric API $project.version"
+		mainArtifact(renameJar) {
+			displayName = "[$project.minecraft_version] QFAPI " + project.version.split("\\+")[0] + " and QSL " + project.qsl_version.split("\\+")[0]
 		}
 
 		afterEvaluate {
@@ -485,6 +485,7 @@ curseforge {
 		forgeGradleIntegration = false
 	}
 }
+tasks.curseforge.dependsOn renameJar
 
 if (signingEnabled) {
 	project.tasks.curseforge.dependsOn signRemapJar
