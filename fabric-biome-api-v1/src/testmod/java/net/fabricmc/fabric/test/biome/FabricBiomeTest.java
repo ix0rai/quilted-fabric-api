@@ -63,7 +63,7 @@ import net.fabricmc.fabric.api.biome.v1.TheEndBiomes;
  * <p>If you don't find a biome right away, teleport far away (~10000 blocks) from spawn and try again.
  */
 public class FabricBiomeTest implements ModInitializer {
-	public static final String MOD_ID = "fabric_biome_test";
+	public static final String MOD_ID = "fabric-biome-api-v1-testmod";
 
 	private static final RegistryKey<Biome> TEST_CRIMSON_FOREST = RegistryKey.of(Registry.BIOME_KEY, new Identifier(MOD_ID, "test_crimson_forest"));
 	private static final RegistryKey<Biome> CUSTOM_PLAINS = RegistryKey.of(Registry.BIOME_KEY, new Identifier(MOD_ID, "custom_plains"));
