@@ -70,6 +70,7 @@ public class FabricBiomeTest implements ModInitializer {
 	private static final RegistryKey<Biome> TEST_END_HIGHLANDS = RegistryKey.of(Registry.BIOME_KEY, new Identifier(MOD_ID, "test_end_highlands"));
 	private static final RegistryKey<Biome> TEST_END_MIDLANDS = RegistryKey.of(Registry.BIOME_KEY, new Identifier(MOD_ID, "test_end_midlands"));
 	private static final RegistryKey<Biome> TEST_END_BARRRENS = RegistryKey.of(Registry.BIOME_KEY, new Identifier(MOD_ID, "test_end_barrens"));
+
 	@Override
 	public void onInitialize() {
 		Registry.register(BuiltinRegistries.BIOME, TEST_CRIMSON_FOREST.getValue(), TheNetherBiomeCreator.createCrimsonForest());
@@ -103,7 +104,7 @@ public class FabricBiomeTest implements ModInitializer {
 						BiomeSelectors.foundInOverworld(),
 						modification -> modification.getWeather().setDownfall(100))
 				.add(ModificationPhase.ADDITIONS,
-						BiomeSelectors.includeByKey(BiomeKeys.DESERT), // TODO: switch to fabric desert biome tag once it is there?
+						BiomeSelectors.categories(Biome.Category.DESERT),
 						context -> {
 							context.getGenerationSettings().addFeature(GenerationStep.Feature.TOP_LAYER_MODIFICATION,
 									BuiltinRegistries.PLACED_FEATURE.getKey(PLACED_COMMON_DESERT_WELL).orElseThrow()
@@ -152,6 +153,6 @@ public class FabricBiomeTest implements ModInitializer {
 	private static Biome composeEndSpawnSettings(GenerationSettings.Builder builder) {
 		SpawnSettings.Builder builder2 = new SpawnSettings.Builder();
 		DefaultBiomeFeatures.addPlainsMobs(builder2);
-		return (new Biome.Builder()).precipitation(Biome.Precipitation.NONE).temperature(0.5F).downfall(0.5F).effects((new BiomeEffects.Builder()).waterColor(4159204).waterFogColor(329011).fogColor(10518688).skyColor(0).moodSound(BiomeMoodSound.CAVE).build()).spawnSettings(builder2.build()).generationSettings(builder.build()).build();
+		return (new Biome.Builder()).precipitation(Biome.Precipitation.NONE).category(Biome.Category.THEEND).temperature(0.5F).downfall(0.5F).effects((new BiomeEffects.Builder()).waterColor(4159204).waterFogColor(329011).fogColor(10518688).skyColor(0).moodSound(BiomeMoodSound.CAVE).build()).spawnSettings(builder2.build()).generationSettings(builder.build()).build();
 	}
 }
