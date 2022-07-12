@@ -4,11 +4,8 @@ jobs:
   build:
     strategy:
       matrix:
-        java: [17-jdk, 18-jdk]
-    runs-on: ubuntu-latest
-    container:
-      image: eclipse-temurin:${{ matrix.java }}-alpine
-      options: --user root
+        java: [17, 18]
+    runs-on: ubuntu-22.04
     steps:
       - uses: actions/cache@v3
         with:
@@ -21,6 +18,10 @@ jobs:
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
+      - uses: actions/setup-java@v3
+        with:
+            distribution: temurin
+            java-version: ${{ matrix.java }}
       - uses: gradle/wrapper-validation-action@v1
       # TODO - Re-enable once issues with Quilt Loader are solved
       # - run: ./gradlew check build publishToMavenLocal --stacktrace --warning-mode=fail -Porg.gradle.parallel.threads=4
