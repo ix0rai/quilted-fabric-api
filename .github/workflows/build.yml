@@ -5,7 +5,7 @@ jobs:
     strategy:
       matrix:
         java: [17, 18]
-    runs-on: ubuntu-22.04
+    runs-on: ubuntu-latest
     steps:
       - uses: actions/cache@v3
         with:
