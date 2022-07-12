@@ -7,7 +7,7 @@ jobs:
         java: [17-jdk, 18-jdk]
     runs-on: ubuntu-latest
     container:
-      image: eclipse-temurin:${{ matrix.java }}
+      image: eclipse-temurin:${{ matrix.java }}-alpine
       options: --user root
     steps:
       - uses: actions/cache@v3
