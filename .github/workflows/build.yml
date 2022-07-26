@@ -38,4 +38,4 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: Maven Local
-          path: ${{ env.HOME }}/.m2/repository
+          path: /home/runner/.m2/repository
