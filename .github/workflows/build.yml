@@ -12,9 +12,9 @@ jobs:
           path: |
             ~/.gradle/caches
             ~/.gradle/wrapper
-          key: ${{ runner.os }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
+          key: ${{ runner.os }}-java-${{ matrix.java }}-gradle-${{ hashFiles('**/*.gradle*', '**/gradle-wrapper.properties') }}
           restore-keys: |
-            ${{ runner.os }}-gradle-
+            ${{ runner.os }}-java-${{ matrix.java }}-gradle-
       - uses: actions/checkout@v3
         with:
           fetch-depth: 0
@@ -38,4 +38,4 @@ jobs:
       - uses: actions/upload-artifact@v3
         with:
           name: Maven Local
-          path: /root/.m2/repository
+          path: ${{ HOME }}/.m2/repository
