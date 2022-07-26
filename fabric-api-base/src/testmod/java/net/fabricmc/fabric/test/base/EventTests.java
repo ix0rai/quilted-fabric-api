@@ -33,7 +33,7 @@ import net.fabricmc.fabric.api.event.EventFactory;
 import net.fabricmc.fabric.impl.base.event.PhaseSorting;
 
 public class EventTests {
-	private static final Logger LOGGER = LoggerFactory.getLogger("fabric-api-baseball");
+	private static final Logger LOGGER = LoggerFactory.getLogger("fabric-api-base");
 
 	public static void run() {
 		long time1 = System.currentTimeMillis();
