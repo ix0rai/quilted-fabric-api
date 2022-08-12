@@ -12,16 +12,11 @@
     "MixinIdRegistry",
     "MixinLevelStorageSession",
     "MixinRegistry",
-    "MixinMinecraftServer",
     "MixinSimpleRegistry",
     "MixinStructuresToConfiguredStructuresFix"
   ],
   "client": [
-    "client.MixinBlockColorMap",
-    "client.MixinItemColorMap",
-    "client.MixinItemModelMap",
-    "client.MixinMinecraftClient",
-    "client.MixinParticleManager"
+    "client.MixinMinecraftClient"
   ],
   "injectors": {
     "defaultRequire": 1

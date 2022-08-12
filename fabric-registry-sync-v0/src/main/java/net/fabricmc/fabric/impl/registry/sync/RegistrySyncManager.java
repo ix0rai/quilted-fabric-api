@@ -91,11 +91,6 @@ public final class RegistrySyncManager {
 	}
 
 	private static void sendPacket(ServerPlayerEntity player, RegistryPacketHandler handler) {
-		Map<Identifier, Object2IntMap<Identifier>> map = RegistrySyncManager.createAndPopulateRegistryMap(true, null);
-
-		if (map != null) {
-			handler.sendPacket(player, map);
-		}
 	}
 
 	public static void receivePacket(ThreadExecutor<?> executor, RegistryPacketHandler handler, PacketByteBuf buf, boolean accept, Consumer<Exception> errorHandler) {
