@@ -1,4 +1,4 @@
-name: Release
+name: Retry Release
 on: [workflow_dispatch] # Manual trigger
 
 permissions:
@@ -29,7 +29,7 @@ jobs:
           context: changelog
           workflow_id: release.yml
       - uses: gradle/wrapper-validation-action@v1
-      - run: ./gradlew publish curseforge github modrinth --stacktrace -Porg.gradle.parallel.threads=4
+      - run: ./gradlew build curseforge github modrinth --stacktrace -Porg.gradle.parallel.threads=4
         env:
           MAVEN_URL: ${{ secrets.MAVEN_URL }}
           MAVEN_USERNAME: ${{ secrets.MAVEN_USERNAME }}
