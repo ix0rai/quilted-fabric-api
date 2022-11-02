@@ -17,9 +17,8 @@
 
 package net.fabricmc.fabric.mixin.resource.loader;
 
-import java.util.Iterator;
+import java.io.InputStream;
 import java.util.List;
-import java.util.Optional;
 
 import org.quiltmc.qsl.resource.loader.api.GroupResourcePack;
 import org.spongepowered.asm.mixin.Final;
@@ -30,6 +29,7 @@ import org.spongepowered.asm.mixin.injection.Inject;
 import org.spongepowered.asm.mixin.injection.callback.CallbackInfoReturnable;
 import org.spongepowered.asm.mixin.injection.callback.LocalCapture;
 
+import net.minecraft.resource.InputSupplier;
 import net.minecraft.resource.NamespaceResourceManager;
 import net.minecraft.resource.Resource;
 import net.minecraft.resource.ResourcePack;

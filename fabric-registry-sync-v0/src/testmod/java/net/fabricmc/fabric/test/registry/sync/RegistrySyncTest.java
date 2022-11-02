@@ -18,9 +18,12 @@
 package net.fabricmc.fabric.test.registry.sync;
 
 import java.util.Map;
+import java.util.concurrent.atomic.AtomicBoolean;
 
+import com.mojang.logging.LogUtils;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
 import org.apache.commons.lang3.Validate;
+import org.slf4j.Logger;
 
 import net.minecraft.block.AbstractBlock;
 import net.minecraft.block.Block;
@@ -38,6 +41,7 @@ import net.minecraft.world.gen.feature.DefaultFeatureConfig;
 import net.minecraft.world.gen.feature.Feature;
 
 import net.fabricmc.api.ModInitializer;
+import net.fabricmc.fabric.api.event.lifecycle.v1.ServerLifecycleEvents;
 import net.fabricmc.fabric.api.event.registry.DynamicRegistrySetupCallback;
 import net.fabricmc.fabric.api.event.registry.FabricRegistryBuilder;
 import net.fabricmc.fabric.api.event.registry.RegistryAttribute;
@@ -52,6 +56,8 @@ import net.fabricmc.fabric.impl.registry.sync.packet.RegistryPacketHandler;
 import net.fabricmc.fabric.test.registry.sync.mixin.StatusEffectAccessor;
 
 public class RegistrySyncTest implements ModInitializer {
+	private static final Logger LOGGER = LogUtils.getLogger();
+
 	/**
 	 * These are system property's as it allows for easier testing with different run configurations.
 	 */
@@ -112,10 +118,21 @@ public class RegistrySyncTest implements ModInitializer {
 		Validate.isTrue(RegistryAttributeHolder.get(fabricRegistry).hasAttribute(RegistryAttribute.SYNCED));
 		Validate.isTrue(!RegistryAttributeHolder.get(fabricRegistry).hasAttribute(RegistryAttribute.PERSISTED));
 
+		final AtomicBoolean setupCalled = new AtomicBoolean(false);
+
 		DynamicRegistrySetupCallback.EVENT.register(registryManager -> {
-			RegistryEntryAddedCallback.event(registryManager.get(Registry.BIOME_KEY)).register((rawId, id, object) -> {
-				System.out.println(id);
+			setupCalled.set(true);
+			registryManager.getOptional(Registry.BIOME_KEY).ifPresent(registry -> {
+				RegistryEntryAddedCallback.event(registry).register((rawId, id, object) -> {
+					LOGGER.info("Biome added: {}", id);
+				});
 			});
+		});
+
+		ServerLifecycleEvents.SERVER_STARTING.register(server -> {
+			if (!setupCalled.get()) {
+				throw new IllegalStateException("DRM setup was not called before startup!");
+			}
 		});
 
 		// Vanilla status effects don't have an entry for the int id 0, test we can handle this.
@@ -142,7 +159,7 @@ public class RegistrySyncTest implements ModInitializer {
 	 * class-loaded.
 	 */
 	private void testBuiltInRegistrySync() {
-		System.out.println("Checking built-in registry sync...");
+		LOGGER.info("Checking built-in registry sync...");
 
 		// Register a configured feature before force-loading the dynamic registry manager
 		ConfiguredFeature<DefaultFeatureConfig, ?> cf1 = new ConfiguredFeature<>(Feature.BASALT_PILLAR, DefaultFeatureConfig.INSTANCE);
@@ -151,13 +168,13 @@ public class RegistrySyncTest implements ModInitializer {
 
 		// Force-Initialize the dynamic registry manager, doing this in a Mod initializer would cause
 		// further registrations into BuiltInRegistries to _NOT_ propagate into DynamicRegistryManager.BUILTIN
-		checkFeature(DynamicRegistryManager.createAndLoad(), f1Id);
+		checkFeature(DynamicRegistryManager.of(BuiltinRegistries.REGISTRIES), f1Id);
 
 		ConfiguredFeature<DefaultFeatureConfig, ?> cf2 = new ConfiguredFeature<>(Feature.DESERT_WELL, DefaultFeatureConfig.INSTANCE);
 		Identifier f2Id = new Identifier("registry_sync", "f2");
 		Registry.register(BuiltinRegistries.CONFIGURED_FEATURE, f2Id, cf2);
 
-		DynamicRegistryManager impl2 = DynamicRegistryManager.createAndLoad();
+		DynamicRegistryManager impl2 = DynamicRegistryManager.of(BuiltinRegistries.REGISTRIES);
 		checkFeature(impl2, f1Id);
 		checkFeature(impl2, f2Id);
 	}
@@ -175,14 +192,6 @@ public class RegistrySyncTest implements ModInitializer {
 
 		if (entry == null) {
 			throw new IllegalStateException("Expected dynamic registry to contain entry " + id);
-		}
-
-		if (builtInEntry == entry) {
-			throw new IllegalStateException("Expected that the built-in entry and dynamic entry don't have object identity because the dynamic entry is created by serializing the built-in entry to JSON and back.");
-		}
-
-		if (builtInEntry.feature() != entry.feature()) {
-			throw new IllegalStateException("Expected both entries to reference the same feature since it's only in Registry and is never copied");
 		}
 	}
 }

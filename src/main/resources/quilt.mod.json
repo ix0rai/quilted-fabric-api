@@ -30,8 +30,8 @@
 				"versions": ">=17"
 			},
 			{
-					"id": "minecraft",
-					"versions": "~1.19.1-beta.2"
+				"id": "minecraft",
+				"versions": ">=1.19.3- <1.19.4-"
 			},
 			"quilted_fabric_api_base",
 			"quilted_fabric_api_lookup_api_v1",
@@ -48,7 +48,7 @@
 			"quilted_fabric_events_interaction_v0",
 			"quilted_fabric_game_rule_api_v1",
 			"quilted_fabric_item_api_v1",
-			"quilted_fabric_item_groups_v0",
+			"quilted_fabric_item_group_api_v1",
 			"quilted_fabric_key_binding_api_v1",
 			"quilted_fabric_lifecycle_events_v1",
 			"quilted_fabric_loot_api_v2",

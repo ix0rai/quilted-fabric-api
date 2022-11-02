@@ -63,11 +63,11 @@ public final class ModResourcePackUtil {
 		return GSON.toJson(metadata);
 	}
 
-	public static String getName(ModMetadata info) {
+	public static Text getName(ModMetadata info) {
 		if (info.getName() != null) {
-			return info.getName();
+			return Text.literal(info.getName());
 		} else {
-			return "Fabric Mod \"" + info.getId() + "\"";
+			return Text.translatable("pack.name.fabricMod", info.getId());
 		}
 	}
 }

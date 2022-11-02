@@ -18,14 +18,13 @@
 package net.fabricmc.fabric.api.datagen.v1;
 
 import java.nio.file.Path;
-import java.util.Collections;
 import java.util.Objects;
-import java.util.function.Function;
 
 import org.jetbrains.annotations.ApiStatus;
 
 import net.minecraft.SharedConstants;
 import net.minecraft.data.DataGenerator;
+import net.minecraft.data.DataOutput;
 import net.minecraft.data.DataProvider;
 
 import net.fabricmc.loader.api.ModContainer;
@@ -36,39 +35,23 @@ import net.fabricmc.loader.api.ModContainer;
 public final class FabricDataGenerator extends DataGenerator {
 	private final ModContainer modContainer;
 	private final boolean strictValidation;
+	private final FabricDataOutput fabricOutput;
 
 	@ApiStatus.Internal
 	public FabricDataGenerator(Path output, ModContainer mod, boolean strictValidation) {
-		super(output, Collections.emptyList(), SharedConstants.getGameVersion(), true);
+		super(output, SharedConstants.getGameVersion(), true);
 		this.modContainer = Objects.requireNonNull(mod);
 		this.strictValidation = strictValidation;
+		this.fabricOutput = new FabricDataOutput(mod, output, strictValidation);
 	}
 
-	/**
-	 * Helper overloaded method to aid with registering a {@link DataProvider} that has a single argument constructor for a {@link FabricDataGenerator}.
-	 *
-	 * @return The {@link DataProvider}
-	 */
-	public <P extends DataProvider> P addProvider(Function<FabricDataGenerator, P> provider) {
-		return addProvider(true, provider);
+	public Pack createPack() {
+		return new Pack(true, modContainer.getMetadata().getName(), this.fabricOutput);
 	}
 
-	/**
-	 * Helper overloaded method to aid with registering a {@link DataProvider} that has a single argument constructor for a {@link FabricDataGenerator}.
-	 *
-	 * @return The {@link DataProvider}
-	 */
-	public <P extends DataProvider> P addProvider(boolean include, Function<FabricDataGenerator, P> provider) {
-		P p = provider.apply(this);
-		addProvider(include, p);
-		return p;
-	}
-
-	/**
-	 * Helper overloaded method to aid with registering a {@link DataProvider}.
-	 */
-	public void addProvider(DataProvider dataProvider) {
-		super.addProvider(true, dataProvider);
+	public Pack createSubPack(String packName) {
+		Path path = this.output.resolvePath(DataOutput.OutputType.DATA_PACK).resolve(getModId()).resolve("datapacks").resolve(packName);
+		return new Pack(true, packName, new FabricDataOutput(modContainer, path, strictValidation));
 	}
 
 	/**
@@ -96,5 +79,43 @@ public final class FabricDataGenerator extends DataGenerator {
 	 */
 	public boolean isStrictValidationEnabled() {
 		return strictValidation;
+	}
+
+	/**
+	 * @deprecated Please use {@link FabricDataGenerator#createPack()}
+	 */
+	@Override
+	@Deprecated
+	public DataGenerator.Pack createVanilla(boolean shouldRun) {
+		throw new UnsupportedOperationException();
+	}
+
+	/**
+	 * @deprecated Please use {@link FabricDataGenerator#createSubPack(String)}
+	 */
+	@Override
+	@Deprecated
+	public DataGenerator.Pack createVanillaSubPack(boolean shouldRun, String packName) {
+		throw new UnsupportedOperationException();
+	}
+
+	public final class Pack extends DataGenerator.Pack {
+		private Pack(boolean shouldRun, String name, FabricDataOutput output) {
+			super(shouldRun, name, output);
+		}
+
+		/**
+		 * Method to register a {@link Factory} to create a {@link DataProvider} that has a single argument constructor for a {@link FabricDataOutput}.
+		 *
+		 * @return The {@link DataProvider}
+		 */
+		public <T extends DataProvider> T addProvider(Factory<T> factory) {
+			return super.addProvider(output -> factory.create((FabricDataOutput) output));
+		}
+
+		@FunctionalInterface
+		public interface Factory<T extends DataProvider> {
+			T create(FabricDataOutput output);
+		}
 	}
 }

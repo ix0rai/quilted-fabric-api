@@ -294,6 +294,11 @@ remapTestmodJar {
 // This must be done after all plugins are applied to subprojects
 apply from: "gradle/module-validation.gradle"
 
+loom {
+	// Required as the item-group API uses access widened classes in its API, without this the javadoc generation fails.
+	accessWidenerPath = file("fabric-item-group-api-v1/src/main/resources/quilted_fabric_item_group_api_v1.accesswidener")
+}
+
 javadoc {
 	options {
 		source = "17"
@@ -301,7 +306,7 @@ javadoc {
 		charSet = "UTF-8"
 		memberLevel = JavadocMemberLevel.PACKAGE
 		links(
-				"https://guava.dev/releases/31.0-jre/api/docs/",
+				"https://guava.dev/releases/31.1-jre/api/docs/",
 				"https://asm.ow2.io/javadoc/",
 				"https://docs.oracle.com/en/java/javase/17/docs/api/",
 				"https://jenkins.liteloader.com/job/Mixin/javadoc/",
@@ -310,7 +315,9 @@ javadoc {
 				"https://netty.io/4.1/api/",
 				"https://javadoc.lwjgl.org/",
 				"https://www.javadoc.io/doc/com.google.code.gson/gson/2.9.1/",
+				"https://javadoc.io/doc/org.jetbrains/annotations/latest/",
 				"https://fastutil.di.unimi.it/docs/",
+				"https://javadoc.scijava.org/JOML/",
 				"https://maven.fabricmc.net/docs/yarn-${rootProject.minecraft_version}${project.yarn_version}/"
 		)
 		// Disable the crazy super-strict doclint tool in Java 8
@@ -326,7 +333,7 @@ javadoc {
 
 	classpath = files(sourceSets.main.compileClasspath, sourceSets.client.compileClasspath)
 	include("**/api/**")
-	failOnError false
+	failOnError true
 }
 
 task javadocJar(type: Jar) {
@@ -582,7 +589,7 @@ curseforge {
 		id = "634179"
 		changelog = ENV.CHANGELOG ?: "No changelog provided"
 		releaseType = project.prerelease == "true" ? "beta" : "release"
-		addGameVersion "1.19.2"
+		addGameVersion "1.19.3"
 		addGameVersion "Quilt"
 
 		mainArtifact(renameJar) {

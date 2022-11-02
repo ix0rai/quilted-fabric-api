@@ -18,10 +18,12 @@
 package net.fabricmc.fabric.api.event.client;
 
 import java.util.Map;
-import java.util.function.Consumer;
+import java.util.function.BiConsumer;
 
-import net.minecraft.client.texture.Sprite;
-import net.minecraft.client.texture.SpriteAtlasTexture;
+import net.minecraft.client.texture.SpriteLoader;
+import net.minecraft.resource.Resource;
+import net.minecraft.resource.ResourceManager;
+import net.minecraft.screen.PlayerScreenHandler;
 import net.minecraft.util.Identifier;
 
 import net.fabricmc.fabric.api.event.Event;
@@ -29,59 +31,23 @@ import net.fabricmc.fabric.impl.client.texture.SpriteRegistryCallbackHolder;
 
 public interface ClientSpriteRegistryCallback {
 	/**
-	 * @deprecated Use the {@link ClientSpriteRegistryCallback#event(Identifier)} registration method. Since 1.14
-	 * started making use of multiple sprite atlases, it is unwise to register sprites to *all* of them.
+	 * Add sprites to the map of sprites that will be baked into the sprite atlas.
+	 *
+	 * @see SpriteLoader#addResources(ResourceManager, String, BiConsumer) For adding textures from a folder recursively.
+	 * @see SpriteLoader#addResource(ResourceManager, Identifier, BiConsumer) For adding a single texture.
 	 */
-	@Deprecated
-	Event<ClientSpriteRegistryCallback> EVENT = SpriteRegistryCallbackHolder.EVENT_GLOBAL;
-
-	void registerSprites(SpriteAtlasTexture atlasTexture, Registry registry);
+	void registerSprites(ResourceManager resourceManager, Map<Identifier, Resource> sprites);
 
 	/**
 	 * Get an event instance for a given atlas path.
 	 *
 	 * @param atlasId The atlas texture ID you want to register to.
 	 * @return The event for a given atlas path.
-	 *
 	 * @since 0.1.1
+	 *
+	 * @see PlayerScreenHandler#BLOCK_ATLAS_TEXTURE
 	 */
 	static Event<ClientSpriteRegistryCallback> event(Identifier atlasId) {
 		return SpriteRegistryCallbackHolder.eventLocal(atlasId);
-	}
-
-	/**
-	 * @deprecated Use the {@link ClientSpriteRegistryCallback#event(Identifier)} registration method.
-	 */
-	@Deprecated
-	static void registerBlockAtlas(ClientSpriteRegistryCallback callback) {
-		event(SpriteAtlasTexture.BLOCK_ATLAS_TEXTURE).register(callback);
-	}
-
-	class Registry {
-		private final Map<Identifier, Sprite> spriteMap;
-		private final Consumer<Identifier> defaultSpriteRegister;
-
-		public Registry(Map<Identifier, Sprite> spriteMap, Consumer<Identifier> defaultSpriteRegister) {
-			this.spriteMap = spriteMap;
-			this.defaultSpriteRegister = defaultSpriteRegister;
-		}
-
-		/**
-		 * Register a sprite to be loaded using the default implementation.
-		 *
-		 * @param id The sprite identifier.
-		 */
-		public void register(Identifier id) {
-			this.defaultSpriteRegister.accept(id);
-		}
-
-		/**
-		 * Register a custom sprite to be added and loaded.
-		 *
-		 * @param sprite The sprite to be added.
-		 */
-		public void register(Sprite sprite) {
-			spriteMap.put(sprite.getId(), sprite);
-		}
 	}
 }

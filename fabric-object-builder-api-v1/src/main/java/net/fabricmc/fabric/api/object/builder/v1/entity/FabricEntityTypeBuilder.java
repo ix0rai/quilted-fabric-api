@@ -21,15 +21,16 @@ import java.util.function.Supplier;
 
 import org.quiltmc.qsl.entity.api.QuiltEntityTypeBuilder;
 
+import net.minecraft.block.Block;
 import net.minecraft.entity.Entity;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.EntityDimensions;
 import net.minecraft.entity.EntityType;
-import net.minecraft.block.Block;
+import net.minecraft.entity.LivingEntity;
+import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.mob.MobEntity;
+import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 
