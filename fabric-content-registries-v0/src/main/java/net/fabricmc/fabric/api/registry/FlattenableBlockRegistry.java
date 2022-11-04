@@ -21,7 +21,7 @@ import java.util.Objects;
 
 import org.slf4j.LoggerFactory;
 import org.quiltmc.qsl.block.content.registry.api.BlockContentRegistries;
-import org.quiltmc.quilted_fabric_api.impl.content.registry.util.QuiltDeferringQueues;
+import org.quiltmc.quilted_fabric_api.fabric.content.registries.v0.impl.QuiltDeferringQueues;
 import org.slf4j.Logger;
 
 import net.minecraft.block.Block;
@@ -49,10 +49,10 @@ public final class FlattenableBlockRegistry {
 		Objects.requireNonNull(input, "input block cannot be null");
 		Objects.requireNonNull(flattened, "flattened block state cannot be null");
 
-		BlockContentRegistries.FLATTENABLE_BLOCK.get(input).ifPresent(old -> {
+		BlockContentRegistries.FLATTENABLE.get(input).ifPresent(old -> {
 			LOGGER.debug("Replaced old flattening mapping from {} to {} with {}", input, old, flattened);
 		});
 
-		QuiltDeferringQueues.addEntry(BlockContentRegistries.FLATTENABLE_BLOCK, input, flattened);
+		QuiltDeferringQueues.addEntry(BlockContentRegistries.FLATTENABLE, input, flattened);
 	}
 }

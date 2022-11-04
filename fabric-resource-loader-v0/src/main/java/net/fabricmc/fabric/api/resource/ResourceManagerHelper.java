@@ -130,7 +130,7 @@ public interface ResourceManagerHelper {
 	 */
 	@Deprecated
 	static boolean registerBuiltinResourcePack(Identifier id, ModContainer container, String displayName, ResourcePackActivationType activationType) {
-		return ResourceManagerHelperImpl.registerBuiltinResourcePack(id, "resourcepacks/" + id.getPath(), container, Text.literal(displayName), activationType);
+		return ResourceManagerHelper.registerBuiltinResourcePack(id, container, Text.literal(displayName), activationType);
 	}
 
 	/**

@@ -31,7 +31,10 @@
 			},
 			{
 				"id": "minecraft",
-				"versions": ">=1.19.3- <1.19.4-"
+				"versions": [
+					">=1.19.3-",
+					"<1.19.4-"
+				]
 			},
 			"quilted_fabric_api_base",
 			"quilted_fabric_api_lookup_api_v1",
@@ -117,7 +120,6 @@
 			"quilt_client_command",
 			"quilt_command",
 			"quilt_crash_info",
-			"quilt_datafixerupper",
 			"quilt_dimension",
 			"quilt_entity",
 			"quilt_entity_events",
@@ -125,7 +127,6 @@
 			"quilt_entity_networking",
 			"quilt_item_content_registry",
 			"quilt_item_extension",
-			"quilt_item_group",
 			"quilt_item_setting",
 			"quilt_lifecycle_events",
 			"quilt_networking",

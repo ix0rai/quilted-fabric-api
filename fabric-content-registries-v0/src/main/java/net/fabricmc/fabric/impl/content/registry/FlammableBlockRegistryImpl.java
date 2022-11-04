@@ -19,7 +19,7 @@ package net.fabricmc.fabric.impl.content.registry;
 
 import org.quiltmc.qsl.block.content.registry.api.BlockContentRegistries;
 import org.quiltmc.qsl.block.content.registry.api.FlammableBlockEntry;
-import org.quiltmc.quilted_fabric_api.impl.content.registry.util.QuiltDeferringQueues;
+import org.quiltmc.quilted_fabric_api.fabric.content.registries.v0.impl.QuiltDeferringQueues;
 
 import net.minecraft.block.Block;
 import net.minecraft.tag.TagKey;
@@ -32,7 +32,7 @@ public class FlammableBlockRegistryImpl implements FlammableBlockRegistry {
 	// User-facing fire registry interface - queries vanilla fire block
 	@Override
 	public Entry get(Block block) {
-		return Entry.fromQuilt(BlockContentRegistries.FLAMMABLE_BLOCK.get(block).orElse(new FlammableBlockEntry(0, 0)));
+		return Entry.fromQuilt(BlockContentRegistries.FLAMMABLE.get(block).orElse(new FlammableBlockEntry(0, 0)));
 	}
 
 	// This is an implementation detail
@@ -45,32 +45,32 @@ public class FlammableBlockRegistryImpl implements FlammableBlockRegistry {
 
 	@Override
 	public void add(Block block, Entry value) {
-		QuiltDeferringQueues.addEntry(BlockContentRegistries.FLAMMABLE_BLOCK, block, value.toQuilt());
+		QuiltDeferringQueues.addEntry(BlockContentRegistries.FLAMMABLE, block, value.toQuilt());
 	}
 
 	@Override
 	public void add(TagKey<Block> tag, Entry value) {
-		BlockContentRegistries.FLAMMABLE_BLOCK.put(tag, value.toQuilt());
+		BlockContentRegistries.FLAMMABLE.put(tag, value.toQuilt());
 	}
 
 	@Override
 	public void remove(Block block) {
-		BlockContentRegistries.FLAMMABLE_BLOCK.put(block, new FlammableBlockEntry(0, 0));
+		BlockContentRegistries.FLAMMABLE.put(block, new FlammableBlockEntry(0, 0));
 	}
 
 	@Override
 	public void remove(TagKey<Block> tag) {
-		BlockContentRegistries.FLAMMABLE_BLOCK.put(tag, new FlammableBlockEntry(0, 0));
+		BlockContentRegistries.FLAMMABLE.put(tag, new FlammableBlockEntry(0, 0));
 	}
 
 	@Override
 	public void clear(Block block) {
-		BlockContentRegistries.FLAMMABLE_BLOCK.remove(block);
+		BlockContentRegistries.FLAMMABLE.remove(block);
 	}
 
 	@Override
 	public void clear(TagKey<Block> tag) {
-		BlockContentRegistries.FLAMMABLE_BLOCK.remove(tag);
+		BlockContentRegistries.FLAMMABLE.remove(tag);
 	}
 
 	public static FlammableBlockRegistryImpl getInstance(Block block) {

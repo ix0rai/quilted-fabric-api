@@ -14,7 +14,7 @@
  * limitations under the License.
  */
 
-package org.quiltmc.quilted_fabric_api.impl.content.registry.util;
+package org.quiltmc.quilted_fabric_api.fabric.content.registries.v0.impl;
 
 import java.util.ArrayList;
 import java.util.HashMap;

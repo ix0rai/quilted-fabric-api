@@ -23,7 +23,6 @@ import net.minecraft.resource.ResourcePackProfile;
 import net.minecraft.resource.ResourcePackProvider;
 import net.minecraft.resource.ResourcePackSource;
 import net.minecraft.resource.ResourceType;
-import net.minecraft.text.MutableText;
 import net.minecraft.text.Text;
 
 /**
@@ -42,8 +41,6 @@ public class ModResourcePackCreator implements ResourcePackProvider {
 		}
 	};
 	public static final ModResourcePackCreator CLIENT_RESOURCE_PACK_PROVIDER = new ModResourcePackCreator(ResourceType.CLIENT_RESOURCES);
-	public static final ModResourcePackCreator SERVER_RESOURCE_PACK_PROVIDER = new ModResourcePackCreator(ResourceType.SERVER_DATA);
-	private final ResourcePackProfile.Factory factory;
 	private final ResourceType type;
 
 	public ModResourcePackCreator(ResourceType type) {
@@ -57,11 +54,6 @@ public class ModResourcePackCreator implements ResourcePackProvider {
 	 */
 	@Override
 	public void register(Consumer<ResourcePackProfile> consumer) {
-		this.register(consumer, this.factory);
-	}
-
-	@Override
-	public void register(Consumer<ResourcePackProfile> consumer, ResourcePackProfile.Factory factory) {
 		// This should stay as it's been used in *some* mods, it's bad I know, but it's an easy way to inject resource
 		// packs, it highlights the need for an API.
 	}

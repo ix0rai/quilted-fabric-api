@@ -21,6 +21,7 @@ import net.minecraft.util.registry.DynamicRegistryManager;
 
 import net.fabricmc.fabric.api.event.Event;
 import net.fabricmc.fabric.api.event.EventFactory;
+import net.fabricmc.fabric.impl.base.event.QuiltCompatEvent;
 
 /**
  * This event gets triggered when a new {@link DynamicRegistryManager} gets created, but before it gets filled.
@@ -50,12 +51,11 @@ import net.fabricmc.fabric.api.event.EventFactory;
 public interface DynamicRegistrySetupCallback {
 	void onRegistrySetup(DynamicRegistryManager registryManager);
 
-	Event<DynamicRegistrySetupCallback> EVENT = EventFactory.createArrayBacked(
-			DynamicRegistrySetupCallback.class,
-			callbacks -> registryManager -> {
-				for (DynamicRegistrySetupCallback callback : callbacks) {
-					callback.onRegistrySetup(registryManager);
-				}
-			}
+	Event<DynamicRegistrySetupCallback> EVENT = QuiltCompatEvent.fromQuilt(
+			org.quiltmc.qsl.registry.api.event.RegistryEvents.DYNAMIC_REGISTRY_SETUP,
+			onDynamicRegistrySetupCallback -> (resourceManager, registryManager) -> onDynamicRegistrySetupCallback.onRegistrySetup(registryManager),
+			// In theory? This lossy conversion should be fine since only Fabric API invokes this event.
+			// A fix should be investigated though if shenanigans happen.
+			invokerGetter -> registryManager -> invokerGetter.get().onDynamicRegistrySetup(null, registryManager)
 	);
 }

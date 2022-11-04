@@ -21,7 +21,7 @@ import java.util.Objects;
 
 import org.slf4j.LoggerFactory;
 import org.quiltmc.qsl.block.content.registry.api.BlockContentRegistries;
-import org.quiltmc.quilted_fabric_api.impl.content.registry.util.QuiltDeferringQueues;
+import org.quiltmc.quilted_fabric_api.fabric.content.registries.v0.impl.QuiltDeferringQueues;
 import org.slf4j.Logger;
 
 import net.minecraft.block.Block;
@@ -52,11 +52,11 @@ public final class StrippableBlockRegistry {
 		requireNonNullAndAxisProperty(input, "input block");
 		requireNonNullAndAxisProperty(stripped, "stripped block");
 
-		BlockContentRegistries.STRIPPABLE_BLOCK.get(input).ifPresent(old -> {
+		BlockContentRegistries.STRIPPABLE.get(input).ifPresent(old -> {
 			LOGGER.debug("Replaced old stripping mapping from {} to {} with {}", input, old, stripped);
 		});
 
-		QuiltDeferringQueues.addEntry(BlockContentRegistries.STRIPPABLE_BLOCK, input, stripped);
+		QuiltDeferringQueues.addEntry(BlockContentRegistries.STRIPPABLE, input, stripped);
 	}
 
 	private static void requireNonNullAndAxisProperty(Block block, String name) {
