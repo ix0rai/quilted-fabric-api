@@ -30,7 +30,6 @@ import net.minecraft.entity.SpawnGroup;
 import net.minecraft.entity.SpawnRestriction;
 import net.minecraft.entity.attribute.DefaultAttributeContainer;
 import net.minecraft.entity.mob.MobEntity;
-import net.minecraft.resource.featuretoggle.FeatureFlags;
 import net.minecraft.world.Heightmap;
 import net.minecraft.world.World;
 
