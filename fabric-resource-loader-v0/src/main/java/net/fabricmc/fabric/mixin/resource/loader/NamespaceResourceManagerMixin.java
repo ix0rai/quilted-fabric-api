@@ -22,7 +22,7 @@ import java.io.InputStream;
 import java.util.List;
 import java.util.Optional;
 
-import org.quiltmc.fabric.resource.loader.v0.impl.QuiltedFabricResource;
+import org.quiltmc.quilted_fabric_api.fabric.resource.loader.v0.impl.QuiltedFabricResource;
 import org.quiltmc.qsl.resource.loader.api.GroupResourcePack;
 import org.spongepowered.asm.mixin.Final;
 import org.spongepowered.asm.mixin.Mixin;

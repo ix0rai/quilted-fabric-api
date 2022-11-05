@@ -17,15 +17,13 @@
 
 package net.fabricmc.fabric.mixin.resource.loader;
 
-import org.quiltmc.fabric.resource.loader.v0.impl.QuiltedFabricResource;
-import org.quiltmc.qsl.resource.loader.api.GroupResourcePack;
+import org.quiltmc.quilted_fabric_api.fabric.resource.loader.v0.impl.QuiltedFabricResource;
 import org.spongepowered.asm.mixin.Mixin;
 import org.spongepowered.asm.mixin.Unique;
 
 import net.minecraft.resource.Resource;
-import net.minecraft.resource.ResourcePack;
 import net.minecraft.resource.ResourcePackSource;
-import net.minecraft.resource.ResourceType;
+
 import net.fabricmc.fabric.impl.resource.loader.FabricResource;
 import net.fabricmc.fabric.impl.resource.loader.ResourcePackSourceTracker;
 

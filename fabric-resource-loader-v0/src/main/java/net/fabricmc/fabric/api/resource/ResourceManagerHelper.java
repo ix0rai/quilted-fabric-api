@@ -20,7 +20,6 @@ package net.fabricmc.fabric.api.resource;
 import org.quiltmc.loader.api.QuiltLoader;
 import org.quiltmc.qsl.resource.loader.api.ResourceLoader;
 import org.quiltmc.qsl.resource.loader.impl.ResourceLoaderImpl;
-
 import org.jetbrains.annotations.ApiStatus;
 
 import net.minecraft.resource.ResourceManager;

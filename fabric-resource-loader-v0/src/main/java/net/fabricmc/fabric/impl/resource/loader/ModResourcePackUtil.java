@@ -28,6 +28,7 @@ import org.apache.commons.io.IOUtils;
 import net.minecraft.SharedConstants;
 import net.minecraft.resource.ResourceType;
 import net.minecraft.text.Text;
+
 import net.fabricmc.loader.api.metadata.ModMetadata;
 
 /**

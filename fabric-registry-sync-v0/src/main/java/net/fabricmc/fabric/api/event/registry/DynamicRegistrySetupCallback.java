@@ -20,7 +20,6 @@ package net.fabricmc.fabric.api.event.registry;
 import net.minecraft.util.registry.DynamicRegistryManager;
 
 import net.fabricmc.fabric.api.event.Event;
-import net.fabricmc.fabric.api.event.EventFactory;
 import net.fabricmc.fabric.impl.base.event.QuiltCompatEvent;
 
 /**

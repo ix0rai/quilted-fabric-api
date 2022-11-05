@@ -160,11 +160,10 @@ public abstract class SimpleRegistryMixin<T> extends Registry<T> implements Rema
 		// We need to restore the 1.19 behavior of binding the value to references immediately.
 		// Unfrozen registries cannot be interacted with otherwise, because the references would throw when
 		// trying to access their values.
-		/* Covered by Quilt Registry Sync
-		if (info.getReturnValue() instanceof RegistryEntry.Reference<T> reference) {
+		// The block below is covered by Quilt Registry Sync
+		/* if (info.getReturnValue() instanceof RegistryEntry.Reference<T> reference) {
 			reference.setValue(entry);
-		}
-		*/
+		} */
 
 		onChange(registryKey);
 	}
