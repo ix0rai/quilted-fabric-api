@@ -10,3 +10,7 @@ dependencies {
 moduleDependencies(project, [
 		'fabric-api-base'
 ])
+
+dependencies {
+	testmodImplementation project(path: ':fabric-content-registries-v0', configuration: 'namedElements')
+}

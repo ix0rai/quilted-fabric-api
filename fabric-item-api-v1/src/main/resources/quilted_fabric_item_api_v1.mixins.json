@@ -4,8 +4,12 @@
   "compatibilityLevel": "JAVA_17",
   "mixins": [
     "ArmorItemMixin",
+    "AbstractFurnaceBlockEntityMixin",
+    "ArmorItemMixin",
+    "BrewingStandBlockEntityMixin",
     "ItemMixin",
-    "ItemStackMixin"
+    "ItemStackMixin",
+    "RecipeMixin"
   ],
   "client": [
     "client.ClientPlayerInteractionManagerMixin",
