@@ -23,7 +23,7 @@
 		"depends": [
 			{
 				"id": "quilt_loader",
-				"versions": ">=0.17.6"
+				"versions": ">=0.17.7"
 			},
 			{
 				"id": "java",
