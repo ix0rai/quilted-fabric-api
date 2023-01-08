@@ -1,6 +1,6 @@
 /*
  * Copyright 2016, 2017, 2018, 2019 FabricMC
- * Copyright 2022 QuiltMC
+ * Copyright 2022-2023 QuiltMC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -16,6 +16,8 @@
  */
 
 package net.fabricmc.fabric.api.event.player;
+
+import org.jetbrains.annotations.Nullable;
 
 import net.minecraft.block.BlockState;
 import net.minecraft.block.entity.BlockEntity;
@@ -91,7 +93,7 @@ public final class PlayerBlockBreakEvents {
 		 * @param blockEntity the block entity <strong>before</strong> the block is broken, can be {@code null}
 		 * @return {@code false} to cancel block breaking action, or {@code true} to pass to next listener
 		 */
-		boolean beforeBlockBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, /* Nullable */ BlockEntity blockEntity);
+		boolean beforeBlockBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity);
 	}
 
 	@FunctionalInterface
@@ -105,7 +107,7 @@ public final class PlayerBlockBreakEvents {
 		 * @param state the block state <strong>before</strong> the block was broken
 		 * @param blockEntity the block entity of the broken block, can be {@code null}
 		 */
-		void afterBlockBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, /* Nullable */ BlockEntity blockEntity);
+		void afterBlockBreak(World world, PlayerEntity player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity);
 	}
 
 	@FunctionalInterface
@@ -119,6 +121,6 @@ public final class PlayerBlockBreakEvents {
 		 * @param state the block state of the block that was going to be broken
 		 * @param blockEntity the block entity of the block that was going to be broken, can be {@code null}
 		 */
-		void onBlockBreakCanceled(World world, PlayerEntity player, BlockPos pos, BlockState state, /* Nullable */ BlockEntity blockEntity);
+		void onBlockBreakCanceled(World world, PlayerEntity player, BlockPos pos, BlockState state, @Nullable BlockEntity blockEntity);
 	}
 }

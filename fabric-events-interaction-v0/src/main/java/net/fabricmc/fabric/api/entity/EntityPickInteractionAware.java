@@ -1,6 +1,6 @@
 /*
  * Copyright 2016, 2017, 2018, 2019 FabricMC
- * Copyright 2022 QuiltMC
+ * Copyright 2022-2023 QuiltMC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -17,12 +17,18 @@
 
 package net.fabricmc.fabric.api.entity;
 
-import org.jetbrains.annotations.Nullable;
-
+import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.util.hit.EntityHitResult;
 import net.minecraft.util.hit.HitResult;
 
+/**
+ * Convenience interface for entities that want more stack picking context than what
+ * {@link Entity#getPickBlockStack()} provides.
+ *
+ * <p>The hit result is guaranteed to be an {@link EntityHitResult}.
+ */
 public interface EntityPickInteractionAware {
-	ItemStack getPickedStack(@Nullable PlayerEntity player, @Nullable HitResult result);
+	ItemStack getPickedStack(PlayerEntity player, HitResult result);
 }

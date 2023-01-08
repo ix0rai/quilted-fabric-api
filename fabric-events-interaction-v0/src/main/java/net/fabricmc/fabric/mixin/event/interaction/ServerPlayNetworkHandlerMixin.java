@@ -1,6 +1,6 @@
 /*
  * Copyright 2016, 2017, 2018, 2019 FabricMC
- * Copyright 2022 QuiltMC
+ * Copyright 2022-2023 QuiltMC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -53,6 +53,18 @@ public abstract class ServerPlayNetworkHandlerMixin implements PlayerInteractEnt
 
 		EntityHitResult hitResult = new EntityHitResult(field_28962, hitPosition.add(field_28962.getX(), field_28962.getY(), field_28962.getZ()));
 		ActionResult result = UseEntityCallback.EVENT.invoker().interact(player, world, hand, field_28962, hitResult);
+
+		if (result != ActionResult.PASS) {
+			info.cancel();
+		}
+	}
+
+	@Inject(method = "interact(Lnet/minecraft/util/Hand;)V", at = @At(value = "HEAD"), cancellable = true)
+	public void onPlayerInteractEntity(Hand hand, CallbackInfo info) {
+		PlayerEntity player = field_28963.player;
+		World world = player.getEntityWorld();
+
+		ActionResult result = UseEntityCallback.EVENT.invoker().interact(player, world, hand, field_28962, null);
 
 		if (result != ActionResult.PASS) {
 			info.cancel();

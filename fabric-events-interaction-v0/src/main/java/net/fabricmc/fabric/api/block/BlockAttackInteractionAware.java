@@ -1,6 +1,6 @@
 /*
  * Copyright 2016, 2017, 2018, 2019 FabricMC
- * Copyright 2022 QuiltMC
+ * Copyright 2022-2023 QuiltMC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -24,9 +24,15 @@ import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.Direction;
 import net.minecraft.world.World;
 
+import net.fabricmc.fabric.api.event.player.AttackBlockCallback;
+
 /**
  * Convenience interface for blocks which listen to "break interactions" (left-click).
+ *
+ * @deprecated Use {@link AttackBlockCallback} instead and check for the block.
+ * This gives more control over the different cancellation outcomes.
  */
+@Deprecated
 public interface BlockAttackInteractionAware {
 	/**
 	 * @return True if the block accepted the player and it should no longer be processed.

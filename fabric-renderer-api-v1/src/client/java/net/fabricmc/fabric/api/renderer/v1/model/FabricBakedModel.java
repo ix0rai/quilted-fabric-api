@@ -1,6 +1,6 @@
 /*
  * Copyright 2016, 2017, 2018, 2019 FabricMC
- * Copyright 2022 QuiltMC
+ * Copyright 2022-2023 QuiltMC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -36,6 +36,8 @@ import net.fabricmc.fabric.api.renderer.v1.render.RenderContext;
  * Interface for baked models that output meshes with enhanced rendering features.
  * Can also be used to generate or customize outputs based on world state instead of
  * or in addition to block state when render chunks are rebuilt.
+ *
+ * <p>Implementors should have a look at {@link ModelHelper} as it contains many useful functions.
  *
  * <p>Note for {@link Renderer} implementors: Fabric causes BakedModel to extend this
  * interface with {@link #isVanillaAdapter()} == true and to produce standard vertex data.
@@ -83,7 +85,7 @@ public interface FabricBakedModel {
 	 * parameter is normally initialized with the same seed prior to each face layer.
 	 * Model authors should note this method is called only once per block, and call the provided
 	 * Random supplier multiple times if re-seeding is necessary. For wrapped vanilla baked models,
-	 * it will probably be easier to use {@link RenderContext#fallbackConsumer} which handles
+	 * it will probably be easier to use {@link RenderContext#bakedModelConsumer()} which handles
 	 * re-seeding per face automatically.
 	 *
 	 * @param blockView Access to world state. Cast to {@code RenderAttachedBlockView} to

@@ -1,6 +1,6 @@
 /*
  * Copyright 2016, 2017, 2018, 2019 FabricMC
- * Copyright 2022 QuiltMC
+ * Copyright 2022-2023 QuiltMC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -43,11 +43,12 @@ public interface BakedModelMixin extends FabricBakedModel {
 
 	@Override
 	default void emitBlockQuads(BlockRenderView blockView, BlockState state, BlockPos pos, Supplier<Random> randomSupplier, RenderContext context) {
-		context.fallbackConsumer().accept((BakedModel) this);
+		context.bakedModelConsumer().accept((BakedModel) this, state);
 	}
 
 	@Override
 	default void emitItemQuads(ItemStack stack, Supplier<Random> randomSupplier, RenderContext context) {
-		context.fallbackConsumer().accept((BakedModel) this);
+		// Pass null state to enforce item quads in block render contexts
+		context.bakedModelConsumer().accept((BakedModel) this, null);
 	}
 }

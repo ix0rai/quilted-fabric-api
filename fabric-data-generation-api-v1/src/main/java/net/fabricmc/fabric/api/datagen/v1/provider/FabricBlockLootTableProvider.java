@@ -1,6 +1,6 @@
 /*
  * Copyright 2016, 2017, 2018, 2019 FabricMC
- * Copyright 2022 QuiltMC
+ * Copyright 2022-2023 QuiltMC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -91,8 +91,12 @@ public abstract class FabricBlockLootTableProvider extends BlockLootTableGenerat
 
 			for (Identifier blockId : Registry.BLOCK.getIds()) {
 				if (blockId.getNamespace().equals(dataGenerator.getModId())) {
-					if (!lootTables.containsKey(Registry.BLOCK.get(blockId).getLootTableId())) {
-						missing.add(blockId);
+					Identifier blockLootTableId = Registry.BLOCK.get(blockId).getLootTableId();
+
+					if (blockLootTableId.getNamespace().equals(dataGenerator.getModId())) {
+						if (!lootTables.containsKey(blockLootTableId)) {
+							missing.add(blockId);
+						}
 					}
 				}
 			}
