@@ -41,7 +41,7 @@ def getSubprojectUpstreamVersion(project) {
 		throw new NullPointerException("Could not find upstream version for " + project.name)
 	}
 
-	return version;
+	return version
 }
 
 def getBranch() {
@@ -138,7 +138,6 @@ allprojects {
 
 	apply plugin: "java-library"
 	apply plugin: "checkstyle"
-	apply plugin: "maven-publish"
 	apply plugin: "org.quiltmc.loom"
 	apply plugin: "org.quiltmc.gradle.licenser"
 
@@ -204,14 +203,6 @@ allprojects {
 
 		testmodImplementation sourceSets.main.output
 		testmodImplementation sourceSets.client.output
-	}
-
-	repositories {
-		mavenLocal()
-		maven {
-			name = "Quilt"
-			url = "https://maven.quiltmc.org/repository/snapshot"
-		}
 	}
 
 	tasks.withType(ProcessResources).configureEach {
@@ -478,7 +469,6 @@ void setupRepositories(RepositoryHandler repositories) {
 			}
 		}
 	} else if (ENV.SNAPSHOTS_URL) {
-
 		repositories.maven {
 			url ENV.SNAPSHOTS_URL
 			credentials {
@@ -607,7 +597,6 @@ if (signingEnabled) {
 
 import org.kohsuke.github.GHReleaseBuilder
 import org.kohsuke.github.GitHub
-
 
 task github(dependsOn: renameJar) {
 	onlyIf {
