@@ -219,6 +219,8 @@ allprojects {
 		rule rootProject.file("codeformat/HEADER")
 
 		include "**/*.java"
+		// TODO - Fix the package-info licenses!
+		exclude "**/package-info.java"
 	}
 
 	checkstyle {
