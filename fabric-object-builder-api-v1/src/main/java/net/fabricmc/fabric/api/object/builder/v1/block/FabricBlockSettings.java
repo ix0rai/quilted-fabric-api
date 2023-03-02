@@ -246,14 +246,8 @@ public class FabricBlockSettings extends QuiltBlockSettings {
 	}
 
 	@Override
-	public FabricBlockSettings offsetType(AbstractBlock.OffsetType offsetType) {
-		super.offsetType(offsetType);
-		return this;
-	}
-
-	@Override
-	public FabricBlockSettings offsetType(Function<BlockState, AbstractBlock.OffsetType> offsetType) {
-		super.offsetType(offsetType);
+	public FabricBlockSettings offset(AbstractBlock.OffsetType offsetType) {
+		super.offset(offsetType);
 		return this;
 	}
 

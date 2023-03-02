@@ -7,6 +7,7 @@
     "BiomeSelectionContextImplMixin",
     "EffectsContextImplMixin",
     "GenerationSettingsContextImplMixin",
+    "NetherBiomePresetMixin",
     "SpawnSettingsContextImplMixin",
     "WeatherContextImplMixin"
   ],

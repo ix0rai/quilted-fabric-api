@@ -22,6 +22,11 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import com.mojang.logging.LogUtils;
 import it.unimi.dsi.fastutil.objects.Object2IntMap;
+
+import net.minecraft.entity.effect.StatusEffect;
+
+import net.minecraft.stat.Stat;
+
 import org.apache.commons.lang3.Validate;
 import org.slf4j.Logger;
 
@@ -50,7 +55,6 @@ import net.fabricmc.fabric.impl.registry.sync.RegistrySyncManager;
 import net.fabricmc.fabric.impl.registry.sync.packet.DirectRegistryPacketHandler;
 import net.fabricmc.fabric.impl.registry.sync.packet.NbtRegistryPacketHandler;
 import net.fabricmc.fabric.impl.registry.sync.packet.RegistryPacketHandler;
-import net.fabricmc.fabric.test.registry.sync.mixin.StatusEffectAccessor;
 
 public class RegistrySyncTest implements ModInitializer {
 	private static final Logger LOGGER = LogUtils.getLogger();
@@ -129,10 +133,16 @@ public class RegistrySyncTest implements ModInitializer {
 			}
 		});
 
+		class AccessibleStatusEffect extends StatusEffect {
+			public AccessibleStatusEffect(StatusEffectCategory category, int color) {
+				super(category, color);
+			}
+		}
+
 		// Vanilla status effects don't have an entry for the int id 0, test we can handle this.
 		//RegistryAttributeHolder.get(Registry.STATUS_EFFECT).addAttribute(RegistryAttribute.MODDED);
 		Registry.register(Registries.STATUS_EFFECT, new Identifier("test", "status_effect"),
-				StatusEffectAccessor.createNewStatusEffect(StatusEffectCategory.NEUTRAL, 0xffff9900)
+				new AccessibleStatusEffect(StatusEffectCategory.NEUTRAL, 0xffff9900)
 		);
 	}
 

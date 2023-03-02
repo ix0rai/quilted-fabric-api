@@ -1,5 +1,5 @@
 /*
- * Copyright 2022-2023 QuiltMC
+ * Copyright (c) 2016, 2017, 2018, 2019 FabricMC
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -14,18 +14,16 @@
  * limitations under the License.
  */
 
-package net.fabricmc.fabric.test.registry.sync.mixin;
+package net.fabricmc.fabric.mixin.networking.client.accessor;
 
 import org.spongepowered.asm.mixin.Mixin;
-import org.spongepowered.asm.mixin.gen.Invoker;
+import org.spongepowered.asm.mixin.gen.Accessor;
 
-import net.minecraft.entity.effect.StatusEffect;
-import net.minecraft.entity.effect.StatusEffectCategory;
+import net.minecraft.client.network.ClientLoginNetworkHandler;
+import net.minecraft.network.ClientConnection;
 
-@Mixin(StatusEffect.class)
-public interface StatusEffectAccessor {
-	@Invoker("<init>")
-	static StatusEffect createNewStatusEffect(StatusEffectCategory category, int color) {
-		throw new IllegalStateException("Mixin injection failed.");
-	}
+@Mixin(ClientLoginNetworkHandler.class)
+public interface ClientLoginNetworkHandlerAccessor {
+	@Accessor
+	ClientConnection getConnection();
 }

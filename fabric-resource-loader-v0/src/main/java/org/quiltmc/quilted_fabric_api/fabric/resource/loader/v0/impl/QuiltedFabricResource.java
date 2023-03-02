@@ -17,6 +17,7 @@
 package org.quiltmc.quilted_fabric_api.fabric.resource.loader.v0.impl;
 
 import net.minecraft.resource.ResourcePackSource;
+import net.minecraft.network.packet.Packet;
 
 import net.fabricmc.fabric.impl.resource.loader.FabricResource;
 

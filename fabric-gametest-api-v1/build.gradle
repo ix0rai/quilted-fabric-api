@@ -6,6 +6,10 @@ loom {
 	accessWidenerPath = file("src/main/resources/quilted_fabric_gametest_api_v1.accesswidener")
 }
 
+loom {
+	accessWidenerPath = file("src/main/resources/fabric-gametest-api-v1.accesswidener")
+}
+
 moduleDependencies(project, [
 		'fabric-api-base',
 		'fabric-resource-loader-v0'
